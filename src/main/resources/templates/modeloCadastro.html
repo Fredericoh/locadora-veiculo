@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layoutPadrao">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Cadastro de modelo</title>
+
+</head>
+<section layout:fragment="conteudo">
+
+    <h4>Cadastro de modelo</h4>
+
+    <div class="container">
+
+        <br/>
+        <br/>
+
+        <form class="container" action="/modelos" method="POST" th:object="${modelo}">
+
+            <div layout:insert="mensagemErro"></div>
+
+            <div layout:insert="mensagemGeral"></div>
+
+            <br/>
+
+            <input type="hidden" th:field="*{idModelo}"/>
+
+            <div class="form-group">
+                <label for="descricaoModelo">Descrição do modelo:</label>
+                <input id="descricaoModelo" class="form-control" type="text" th:field="*{descricaoModelo}"/>
+            </div>
+
+            <div class="form-group">
+                <label for="categoria">Categoria</label>
+                <select id="categoria" class="custom-select" th:field="*{categoria}">
+                    <option value="">Selecione uma categoria</option>
+                    <option th:each="categoria : ${todasCategorias}"
+                            th:text="${categoria.descricaoCategoria}"
+                            th:value="${categoria}">
+                    </option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="fabricante">Fabricante</label>
+                <select id="fabricante" class="custom-select" th:field="*{fabricante}">
+                    <option value="">Selecione um fabricante</option>
+                    <option th:each="fabricante : ${todosFabricantes}"
+                            th:text="${fabricante.nome}"
+                            th:value="${fabricante.idFabricante}">
+                    </option>
+                </select>
+            </div>
+
+            <button class="btn btn-primary" type="submit">Salvar</button>
+
+        </form>
+
+    </div>
+
+</section>
+</html>

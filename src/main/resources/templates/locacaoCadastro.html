@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layoutPadrao">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Cadastro de locação</title>
+
+</head>
+
+<section layout:fragment="conteudo">
+
+    <h4>Cadastro de locação</h4>
+
+
+    <div class="container">
+
+        <br/>
+        <br/>
+
+        <form class="container" action="/locacoes" method="POST" th:object="${locacao}">
+
+            <div layout:insert="mensagemErro"></div>
+
+            <div layout:insert="mensagemGeral"></div>
+
+            <br/>
+
+            <input type="hidden" th:field="*{idLocacao}"/>
+
+            <div class="form-group">
+                <label for="dataLocacao">Data de locação</label>
+                <input id="dataLocacao" class="form-control" type="date" th:field="*{dataDeLocacao}"/>
+            </div>
+
+            <div class="form-group">
+                <label for="dataDevolucao">Data de devolução</label>
+                <input id="dataDevolucao" class="form-control" type="date" th:field="*{dataDeDevolucao}"/>
+            </div>
+
+            <div class="form-group">
+                <label for="motorista">Motorista</label>
+                <select id="motorista" class="custom-select" th:field="*{motorista}">
+                    <option value="">Selecione um motorista</option>
+                    <option th:each="motorista : ${todosMotoristas}"
+                            th:text="${motorista.nome}"
+                            th:value="${motorista.idMotorista}">
+                    </option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="carro">Carro</label>
+                <select id="carro" class="custom-select" th:field="*{carro}">
+                    <option value="">Selecione um carro</option>
+                    <option th:each="carro : ${todosCarros}"
+                            th:text="${carro.getModelo().descricaoModelo}"
+                            th:value="${carro.idCarro}">
+                    </option>
+                </select>
+            </div>
+
+            <button class="btn btn-primary" type="submit">Salvar</button>
+
+        </form>
+
+    </div>
+
+</section>
+</html>

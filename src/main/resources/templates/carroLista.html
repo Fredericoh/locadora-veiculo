@@ -1,0 +1,50 @@
+    <!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+ layout:decorator="layoutPadrao">
+<head>
+<meta charset="UTF-8" />
+	<title>Lista de carros</title>
+</head>
+<section layout:fragment="conteudo">
+	<h4>Lista de carros</h4>
+
+<div class="container">
+	<br />
+	<br />
+	
+	<table class="table">
+
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Placa</th>
+				<th>Chassi</th>
+				<th>Valor da diaria</th>
+				<th>Modelo</th>
+				<th>Ação</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="carro : ${carros}">
+				<td th:text="${carro.idCarro}"></td>
+				<td th:text="${carro.placa}"></td>
+				<td th:text="${carro.chassi}"></td>
+				<td th:text="|R$ ${{carro.valorDaDiaria}}|"></td>
+				<td th:text="${carro.modelo.descricaoModelo}"></td>
+				<td>
+					<a class="btn btn-primary" th:href="@{/carros/editar/{id}(id=${carro.idCarro})}">Editar</a>
+					<a class="btn btn-danger" th:href="@{/modelos/excluir/{id}(id=${carro.idCarro})}"
+					onclick="return confirm('Confirma a exclusão ?')">Excluir</a>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="5" th:if="${#lists.isEmpty(carros)}" >Nenhum carro cadastrado!</td>
+			</tr>
+		</tbody>
+
+	</table>
+</div>
+</section>
+</html>

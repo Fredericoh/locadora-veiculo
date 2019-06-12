@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layoutPadrao">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Cadastro de carro</title>
+
+</head>
+<section layout:fragment="conteudo">
+
+    <h4>Cadastro de carro</h4>
+
+    <div class="container">
+
+        <br/>
+        <br/>
+
+        <form class="container" action="/carros" method="POST" th:object="${carro}">
+
+            <div layout:insert="mensagemErro"></div>
+
+            <div layout:insert="mensagemGeral"></div>
+
+            <br/>
+
+            <input type="hidden" th:field="*{idCarro}"/>
+
+            <div class="form-group">
+                <label for="placa">Placa:</label>
+                <input id="placa" class="form-control" type="text" th:field="*{placa}"/>
+            </div>
+
+            <div class="form-group">
+                <label for="chassi">Chassi:</label>
+                <input id="chassi" class="form-control" type="text" th:field="*{chassi}"/>
+            </div>
+
+            <div class="form-group">
+                <label for="valorDiaria">Valor da diaria:</label>
+                <input id="valorDiaria" class="form-control" type="text" th:field="*{valorDaDiaria}"/>
+            </div>
+
+            <div class="form-group">
+                <label for="modelo">Modelo</label>
+                <select id="modelo" class="custom-select" th:field="*{modelo}">
+                    <option value="">Selecione um modelo</option>
+                    <option th:each="modelo : ${todosModelos}"
+                            th:text="${modelo.descricaoModelo}"
+                            th:value="${modelo.idModelo}">
+                    </option>
+                </select>
+            </div>
+
+            <button class="btn btn-primary" type="submit">Salvar</button>
+
+        </form>
+
+    </div>
+
+</section>
+</html>

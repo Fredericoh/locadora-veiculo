@@ -1,0 +1,50 @@
+    <!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+ layout:decorator="layoutPadrao">
+<head>
+<meta charset="UTF-8" />
+	<title>Lista de motorista</title>
+</head>
+<section layout:fragment="conteudo">
+	<h4>Lista de motorista</h4>
+
+<div class="container">
+	<br />
+	<br />
+	
+	<table class="table">
+
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Nome</th>
+				<th>Cpf</th>
+				<th>Cnh</th>
+				<th>Sexo</th>
+				<th>Ação</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="motorista : ${motoristas}">
+				<td th:text="${motorista.idMotorista}"></td>
+				<td th:text="${motorista.nome}"></td>
+				<td th:text="${motorista.cpf}"></td>
+				<td th:text="${motorista.cnh}"></td>
+				<td th:text="${motorista.sexo.descricaoSexo}"></td>
+				<td>
+					<a class="btn btn-primary" th:href="@{/motoristas/editar/{id}(id=${motorista.idMotorista})}">Editar</a>
+					<a class="btn btn-danger" th:href="@{/motoristas/excluir/{id}(id=${motorista.idMotorista})}"
+					onclick="return confirm('Confirma a exclusão ?')">Excluir</a>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="5" th:if="${#lists.isEmpty(motoristas)}" >Nenhum motorista cadastrado!</td>
+			</tr>
+		</tbody>
+
+	</table>
+</div>
+</section>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:th="http://www.thymeleaf.org"
+ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+
+<nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+
+  <div class="d-flex">
+
+    <div class="dropdown mr-2">
+      <a class="btn btn-primary" th:href="@{/}" role="button">Home</a>
+    </div>
+
+    <div class="dropdown mr-2">
+      <button type="button" class="btn btn-primary dropdown-toggle" id="cadastar"
+              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="10,20">
+        Cadastrar
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuOffset">
+        <a class="dropdown-item" th:href="@{/fabricantes/novo}" >Fabricante</a>
+        <a class="dropdown-item" th:href="@{/motoristas/novo}">Motorista</a>
+        <a class="dropdown-item" th:href="@{/modelos/novo}">Modelos</a>
+        <a class="dropdown-item" th:href="@{/carros/novo}">Carro</a>
+        <a class="dropdown-item" th:href="@{/locacoes/novo}">Locação</a>
+      </div>
+    </div>
+
+    <div class="dropdown mr-2">
+      <button type="button" class="btn btn-primary dropdown-toggle" id="listar"
+              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="10,20">
+        Listar
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuOffset">
+        <a class="dropdown-item" th:href="@{/fabricantes}">Fabricante</a>
+        <a class="dropdown-item" th:href="@{/motoristas}">Motorista</a>
+        <a class="dropdown-item" th:href="@{/modelos}">Modelo</a>
+        <a class="dropdown-item" th:href="@{/carros}">Carro</a>
+        <a class="dropdown-item" th:href="@{/locacoes}">Locação</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+</html>

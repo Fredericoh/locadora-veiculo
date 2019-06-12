@@ -1,0 +1,48 @@
+    <!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+ layout:decorator="layoutPadrao">
+<head>
+<meta charset="UTF-8" />
+	<title>Lista de locações</title>
+</head>
+<section layout:fragment="conteudo">
+	<h4>Lista de locações</h4>
+
+<div class="container">
+	<br />
+	<br />
+	
+	<table class="table">
+
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Data de locação</th>
+				<th>Data de devolução</th>
+				<th>Valor total</th>
+				<th>Ação</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="locacao : ${locacoes}">
+				<td th:text="${locacao.idLocacao}"></td>
+				<td th:text="${#temporals.format(locacao.dataDeLocacao, 'dd/MM/yyyy')}"></td>
+				<td th:text="${#temporals.format(locacao.dataDeDevolucao, 'dd/MM/yyyy')}"></td>
+				<td th:text="|R$ ${{locacao.calcularValorTotal()}}|"></td>
+				<td>
+					<a class="btn btn-primary" th:href="@{/locacoes/editar/{id}(id=${locacao.idLocacao})}">Editar</a>
+					<a class="btn btn-danger" th:href="@{/locacoes/excluir/{id}(id=${locacao.idLocacao})}"
+					onclick="return confirm('Confirma a exclusão ?')">Excluir</a>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="5" th:if="${#lists.isEmpty(locacoes)}" >Nenhuma locação cadastrada!</td>
+			</tr>
+		</tbody>
+
+	</table>
+</div>
+</section>
+</html>

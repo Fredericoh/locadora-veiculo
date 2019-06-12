@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layoutPadrao">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Cadastro de fabricantes</title>
+
+</head>
+<section layout:fragment="conteudo">
+
+    <h4>Cadastro de fabricantes</h4>
+
+    <div class="container">
+
+        <br/>
+        <br/>
+
+        <form class="container" action="/fabricantes" method="POST" th:object="${fabricante}">
+
+            <div layout:insert="mensagemErro"></div>
+
+            <div layout:insert="mensagemGeral"></div>
+
+            <br/>
+
+            <input type="hidden" th:field="*{idFabricante}"/>
+
+            <div class="form-group">
+                <label for="nome">Nome:</label>
+                <input id="nome" class="form-control" type="text" th:field="*{nome}"/>
+            </div>
+
+            <div class="form-group">
+                <label for="descricaoFabricante">Descrição do fabricante:</label>
+                <input id="descricaoFabricante" class="form-control" type="text" th:field="*{descricaoFabricante}"/>
+            </div>
+
+            <button class="btn btn-primary" type="submit">Salvar</button>
+
+        </form>
+
+    </div>
+
+</section>
+</html>
