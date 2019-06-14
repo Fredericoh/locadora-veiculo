@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
-//import org.springframework.format.annotation.NumberFormat;
+import org.springframework.format.annotation.NumberFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -22,10 +22,10 @@ public class Locacao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idLocacao;
 
-//    @NotNull(message = "O campo valor total é obrigatorio. ")
-//    @Column(precision = 10, scale = 2)
-//    @NumberFormat(pattern = "#,##0.00")
-//    private BigDecimal valorTotal;
+    //@NotNull(message = "O campo valor total é obrigatorio. ")
+    @Column(precision = 10, scale = 2)
+    @NumberFormat(pattern = "#,##0.00")
+    private BigDecimal valorTotal;
 
     @NotNull(message = "O campo data de locação é obrigatorio. ")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -52,7 +52,7 @@ public class Locacao {
 
         calculaValorTotal = carro.getValorDaDiaria ().multiply (new BigDecimal (diferancaDeDias));
 
-//        setValorTotal (calculaValorTotal);
+        setValorTotal (calculaValorTotal);
 
         return calculaValorTotal;
     }

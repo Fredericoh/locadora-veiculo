@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -61,15 +62,28 @@ public class LocacaoController {
             return new ModelAndView (LOCACAO_CADASTRO);
         }
 
-        if (locacao.getIdLocacao () == null){
-            locacaoRepository.save (locacao);
+        LocalDate dataAtual = LocalDate.now();
 
-            redirectAttributes.addFlashAttribute ("mensagem", "Inclusão realizada com sucesso.");
-        } else {
+        if (locacao.getDataDeLocacao ().isBefore (dataAtual)){
 
-            locacaoRepository.save (locacao);
-            redirectAttributes.addFlashAttribute ("mensagem", "Alteração realizada com sucesso.");
+            redirectAttributes.addFlashAttribute ("mensagem", "A data de locação deve ser maior que a data atual.");
+
+        }else {
+
+            if (locacao.getIdLocacao () == null){
+                locacao.calcularValorTotal ();
+                locacaoRepository.save (locacao);
+
+                redirectAttributes.addFlashAttribute ("mensagem", "Inclusão realizada com sucesso.");
+            } else {
+                locacao.calcularValorTotal ();
+                locacaoRepository.save (locacao);
+                redirectAttributes.addFlashAttribute ("mensagem", "Alteração realizada com sucesso.");
+            }
+
         }
+
+
 
         return new ModelAndView ("redirect:/locacoes/novo");
     }
