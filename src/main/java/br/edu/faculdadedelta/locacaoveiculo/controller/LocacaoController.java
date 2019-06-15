@@ -3,11 +3,10 @@ package br.edu.faculdadedelta.locacaoveiculo.controller;
 import br.edu.faculdadedelta.locacaoveiculo.modelo.Carro;
 import br.edu.faculdadedelta.locacaoveiculo.modelo.Locacao;
 import br.edu.faculdadedelta.locacaoveiculo.modelo.Motorista;
-import br.edu.faculdadedelta.locacaoveiculo.repository.CarroRepository;
-import br.edu.faculdadedelta.locacaoveiculo.repository.LocacaoRepository;
-import br.edu.faculdadedelta.locacaoveiculo.repository.MotoristaRepository;
+import br.edu.faculdadedelta.locacaoveiculo.service.CarroService;
+import br.edu.faculdadedelta.locacaoveiculo.service.LocacaoService;
+import br.edu.faculdadedelta.locacaoveiculo.service.MotoristaService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
@@ -26,13 +25,13 @@ public class LocacaoController {
     private static final String LOCACAO_LISTA =  "locacaoLista";
 
     @Autowired
-    private LocacaoRepository locacaoRepository;
+    private LocacaoService locacaoService;
 
     @Autowired
-    private MotoristaRepository motoristaRepository;
+    private MotoristaService motoristaService;
 
     @Autowired
-    private CarroRepository carroRepository;
+    private CarroService carroService;
 
     @RequestMapping("/novo")
     public ModelAndView novo(){
@@ -45,13 +44,13 @@ public class LocacaoController {
     @ModelAttribute(name = "todosMotoristas")
     public List<Motorista> todosMotoristas(){
 
-        return motoristaRepository.findAll ();
+        return motoristaService.listar ();
     }
 
     @ModelAttribute(name = "todosCarros")
     public List<Carro> todosCarros(){
 
-        return carroRepository.findAll ();
+        return carroService.listar ();
     }
 
     @PostMapping
@@ -72,12 +71,12 @@ public class LocacaoController {
 
             if (locacao.getIdLocacao () == null){
                 locacao.calcularValorTotal ();
-                locacaoRepository.save (locacao);
+                locacaoService.incluir (locacao);
 
                 redirectAttributes.addFlashAttribute ("mensagem", "Inclusão realizada com sucesso.");
             } else {
                 locacao.calcularValorTotal ();
-                locacaoRepository.save (locacao);
+                locacaoService.alterar (locacao);
                 redirectAttributes.addFlashAttribute ("mensagem", "Alteração realizada com sucesso.");
             }
 
@@ -93,7 +92,7 @@ public class LocacaoController {
 
         ModelAndView modelAndView = new ModelAndView (LOCACAO_LISTA);
 
-        modelAndView.addObject ("locacoes", locacaoRepository.findAll ());
+        modelAndView.addObject ("locacoes", locacaoService.listar ());
 
         return modelAndView;
     }
@@ -103,8 +102,7 @@ public class LocacaoController {
 
         ModelAndView modelAndView = new ModelAndView (LOCACAO_CADASTRO);
 
-        modelAndView.addObject (locacaoRepository.findById (id)
-                .orElseThrow (() -> new EmptyResultDataAccessException (0)));
+        modelAndView.addObject (locacaoService.pesquisarPorId (id));
 
         return modelAndView;
     }
@@ -114,7 +112,7 @@ public class LocacaoController {
 
         ModelAndView modelAndView = new ModelAndView("redirect:/locacoes");
 
-        locacaoRepository.deleteById (id);
+        locacaoService.excluir (id);
 
         return modelAndView;
     }

@@ -22,6 +22,8 @@
 				<th>Data de locação</th>
 				<th>Data de devolução</th>
 				<th>Valor total</th>
+				<th>Motorista</th>
+				<th>Carro</th>
 				<th>Ação</th>
 			</tr>
 		</thead>
@@ -31,6 +33,8 @@
 				<td th:text="${#temporals.format(locacao.dataDeLocacao, 'dd/MM/yyyy')}"></td>
 				<td th:text="${#temporals.format(locacao.dataDeDevolucao, 'dd/MM/yyyy')}"></td>
 				<td th:text="|R$ ${{locacao.calcularValorTotal()}}|"></td>
+				<td th:text="${locacao.motorista.nome}"></td>
+				<td th:text="${locacao.carro.modelo.descricaoModelo}"></td>
 				<td>
 					<a class="btn btn-primary" th:href="@{/locacoes/editar/{id}(id=${locacao.idLocacao})}">Editar</a>
 					<a class="btn btn-danger" th:href="@{/locacoes/excluir/{id}(id=${locacao.idLocacao})}"

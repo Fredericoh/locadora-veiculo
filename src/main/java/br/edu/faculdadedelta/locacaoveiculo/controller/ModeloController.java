@@ -3,10 +3,9 @@ package br.edu.faculdadedelta.locacaoveiculo.controller;
 import br.edu.faculdadedelta.locacaoveiculo.modelo.Fabricante;
 import br.edu.faculdadedelta.locacaoveiculo.modelo.Modelo;
 import br.edu.faculdadedelta.locacaoveiculo.modelo.type.Categoria;
-import br.edu.faculdadedelta.locacaoveiculo.repository.FabricanteRepository;
-import br.edu.faculdadedelta.locacaoveiculo.repository.ModeloRepository;
+import br.edu.faculdadedelta.locacaoveiculo.service.FabricanteService;
+import br.edu.faculdadedelta.locacaoveiculo.service.ModeloService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
@@ -24,10 +23,10 @@ public class ModeloController {
     private static final String MODELO_LISTA =  "modeloLista";
 
     @Autowired
-    private ModeloRepository modeloRepository;
+    private ModeloService modeloService;
 
     @Autowired
-    private FabricanteRepository fabricanteRepository;
+    private FabricanteService fabricanteService;
 
     @RequestMapping("/novo")
     public ModelAndView novo(){
@@ -40,7 +39,7 @@ public class ModeloController {
     @ModelAttribute(name = "todosFabricantes")
     public List<Fabricante> todosFabricantes(){
 
-        return fabricanteRepository.findAll ();
+        return fabricanteService.listar ();
     }
 
     @ModelAttribute(name = "todasCategorias")
@@ -58,12 +57,12 @@ public class ModeloController {
         }
 
         if (modelo.getIdModelo () == null){
-            modeloRepository.save (modelo);
+            modeloService.incluir (modelo);
 
             redirectAttributes.addFlashAttribute ("mensagem", "Inclusão realizada com sucesso.");
         } else {
 
-            modeloRepository.save (modelo);
+            modeloService.alterar (modelo);
             redirectAttributes.addFlashAttribute ("mensagem", "Alteração realizada com sucesso.");
         }
 
@@ -75,7 +74,7 @@ public class ModeloController {
 
         ModelAndView modelAndView = new ModelAndView (MODELO_LISTA);
 
-        modelAndView.addObject ("modelos", modeloRepository.findAll ());
+        modelAndView.addObject ("modelos", modeloService.listar ());
 
         return modelAndView;
     }
@@ -85,8 +84,7 @@ public class ModeloController {
 
         ModelAndView modelAndView = new ModelAndView (MODELO_CADASTRO);
 
-        modelAndView.addObject (modeloRepository.findById (id)
-                .orElseThrow (() -> new EmptyResultDataAccessException (0)));
+        modelAndView.addObject (modeloService.pesquisarPorId (id));
 
         return modelAndView;
     }
@@ -96,7 +94,7 @@ public class ModeloController {
 
         ModelAndView modelAndView = new ModelAndView("redirect:/modelos");
 
-        modeloRepository.deleteById (id);
+        modeloService.excluir (id);
 
         return modelAndView;
     }

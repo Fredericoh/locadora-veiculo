@@ -2,7 +2,7 @@ package br.edu.faculdadedelta.locacaoveiculo.controller;
 
 import br.edu.faculdadedelta.locacaoveiculo.modelo.Motorista;
 import br.edu.faculdadedelta.locacaoveiculo.modelo.type.Sexo;
-import br.edu.faculdadedelta.locacaoveiculo.repository.MotoristaRepository;
+import br.edu.faculdadedelta.locacaoveiculo.service.MotoristaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
@@ -21,7 +21,7 @@ public class MotoristaController {
     private static final String MOTORISTA_LISTA =  "motoristaLista";
 
     @Autowired
-    private MotoristaRepository motoristaRepository;
+    private MotoristaService motoristaService;
 
     @RequestMapping("/novo")
     public ModelAndView novo(){
@@ -46,12 +46,12 @@ public class MotoristaController {
         }
 
         if (motorista.getIdMotorista () == null){
-            motoristaRepository.save (motorista);
+            motoristaService.incluir (motorista);
 
             redirectAttributes.addFlashAttribute ("mensagem", "Inclusão realizada com sucesso.");
         } else {
 
-            motoristaRepository.save (motorista);
+            motoristaService.alterar (motorista);
             redirectAttributes.addFlashAttribute ("mensagem", "Alteração realizada com sucesso.");
         }
 
@@ -63,7 +63,7 @@ public class MotoristaController {
 
         ModelAndView modelAndView = new ModelAndView (MOTORISTA_LISTA);
 
-        modelAndView.addObject ("motoristas", motoristaRepository.findAll ());
+        modelAndView.addObject ("motoristas", motoristaService.listar ());
 
         return modelAndView;
     }
@@ -73,8 +73,7 @@ public class MotoristaController {
 
         ModelAndView modelAndView = new ModelAndView (MOTORISTA_CADASTRO);
 
-        modelAndView.addObject (motoristaRepository.findById (id)
-                .orElseThrow (() -> new EmptyResultDataAccessException (0)));
+        modelAndView.addObject (motoristaService.pesquisarPorId (id));
 
         return modelAndView;
     }
@@ -84,7 +83,7 @@ public class MotoristaController {
 
         ModelAndView modelAndView = new ModelAndView("redirect:/motoristas");
 
-        motoristaRepository.deleteById (id);
+        motoristaService.excluir (id);
 
         return modelAndView;
     }
